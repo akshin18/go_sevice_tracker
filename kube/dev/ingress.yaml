@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: merlin-sessions-api-dev-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-cf-prod
+spec:
+  tls:
+  - hosts:
+    - dev.events.getmerlin.site
+    secretName: merlin-sessions-api-dev-tls
+  rules:
+  - host: dev.events.getmerlin.site
+    http:
+      paths:
+      - backend:
+          service:
+            name: merlin-sessions-api-dev-service
+            port: 
+              number: 8080
+        path: /
+        pathType: Prefix
